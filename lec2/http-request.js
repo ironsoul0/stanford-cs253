@@ -4,7 +4,7 @@ const dns = require('dns')
 dns.lookup('example.com', (err, address) => {
     if (err) throw err
 
-    const socket = net.createConnection({
+    const socket = net.createConnection({ // Opening a TCP socket
         host: address,
         port: 80
     })
