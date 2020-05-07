@@ -1,1 +1,3 @@
-// TODO: Replace this with your solution.
+const http = require('http')
+
+const url = process.argv[2]

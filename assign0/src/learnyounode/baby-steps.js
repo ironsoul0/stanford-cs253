@@ -1,7 +1,7 @@
-let sum = 0;
+let sum = 0
 
 for (let i = 2; i < process.argv.length; i++) {
-    sum += parseInt(process.argv[i], 10);
+  sum += parseInt(process.argv[i], 10)
 }
 
-console.log(sum);
+console.log(sum)
