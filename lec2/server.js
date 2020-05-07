@@ -14,6 +14,8 @@ const app = express()
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cookieParser())
 
+app.use(express.static(path.resolve(__dirname)))
+
 app.get('/', (req, res) => {
     const { username } = req.cookies
 
