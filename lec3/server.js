@@ -1,3 +1,4 @@
+const { randomBytes } = require('crypto')
 const express = require('express')
 const fs = require('fs')
 const path = require('path')
@@ -15,7 +16,6 @@ const balances = {
 }
 
 const sessions = {} // sessionId -> username
-let nextSessionId = 0
 
 const app = express()
 
@@ -45,10 +45,10 @@ app.post('/login', (req, res) => {
     const password = req.body.password
 
     if (password === userDB[username]) {
+        const nextSessionId = randomBytes(16).toString('base64')
         res.cookie('sessionId', nextSessionId)
         sessions[nextSessionId] = username
         console.log(sessions)
-        nextSessionId += 1
         res.send('nice!')
     } else {
         res.send('fail')
