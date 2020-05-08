@@ -4,30 +4,36 @@ const path = require('path')
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 
-const COOKIE_SECRET = 'ksfsdfinsfisnifsifsinfn'
-
 const userDB = {
     alice: 'password',
     bob: 'hunter2'
 }
+
 const balances = {
     alice: 500,
-    bob: 100
+    bob: 200
 }
+
+const sessions = {} // sessionId -> username
+let nextSessionId = 0
 
 const app = express()
 
 app.use(bodyParser.urlencoded({ extended: false }))
-app.use(cookieParser(COOKIE_SECRET))
+app.use(cookieParser())
 
 // app.use(express.static(path.resolve(__dirname)))
 
 app.get('/', (req, res) => {
-    const { username } = req.signedCookies
+    const { sessionId } = req.cookies
+
+    console.log(`found ${sessionId}`)
+
+
+    const username = sessions[sessionId]
 
     if (username) {
-        const balance = balances[username];
-        return res.send(`Hi ${username}. Your balance is $${balance}`)
+        res.send(`Hi ${username}. Your balance is ${balances[username]}`)
     }
 
     fs.createReadStream('index.html').pipe(res)
@@ -38,8 +44,11 @@ app.post('/login', (req, res) => {
     const username = req.body.username
     const password = req.body.password
 
-    if (password == userDB[username]) {
-        res.cookie('username', username, { signed: true })
+    if (password === userDB[username]) {
+        res.cookie('sessionId', nextSessionId)
+        sessions[nextSessionId] = username
+        console.log(sessions)
+        nextSessionId += 1
         res.send('nice!')
     } else {
         res.send('fail')
@@ -47,7 +56,9 @@ app.post('/login', (req, res) => {
 })
 
 app.get('/logout', (req, res) => {
-    res.clearCookie('username')
+    const sessionId = req.cookies.sessionId
+    if (sessionId) delete sessions[sessionId]
+    res.clearCookie('sessionId')
     res.redirect('/')
 })
 
