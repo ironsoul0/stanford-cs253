@@ -55,7 +55,12 @@ app.post('/login', (req, res) => {
 
     if (password === userDB[username]) {
         const nextSessionId = randomBytes(16).toString('base64')
-        res.cookie('sessionId', nextSessionId)
+        res.cookie('sessionId', nextSessionId, {
+            // secure: true,
+            httpOnly: true,
+            sameSite: 'lax',
+            maxAge: 30 * 24 * 60 * 60 * 1000 // 30 days
+        })
         sessions[nextSessionId] = username
         console.log(sessions)
         res.send('nice!')
@@ -67,7 +72,11 @@ app.post('/login', (req, res) => {
 app.get('/logout', (req, res) => {
     const sessionId = req.cookies.sessionId
     if (sessionId) delete sessions[sessionId]
-    res.clearCookie('sessionId')
+    res.clearCookie('sessionId', {
+        // secure: true,
+        httpOnly: true,
+        sameSite: 'lax'
+    })
     res.redirect('/')
 })
 
