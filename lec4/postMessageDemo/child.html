@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang='en'>
+    <head>
+        <title>Child</title>
+    </head>
+    <body>
+        <h1>Child</h1>
+        <div />
+        <script> 
+            const div = document.querySelector('div')
+            
+            window.addEventListener('message', function (event) {
+                if (event.origin === 'http://localhost:4000')
+                div.textContent = event.data
+            })
+        </script>
+    </body>
+</html>
+
