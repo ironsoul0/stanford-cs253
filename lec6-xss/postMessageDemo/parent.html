@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang='en'>
+    <head>
+        <title>Parent</title>
+    </head>
+    <body>
+        <h1>Parent page</h1>
+        <input name='inp' />
+        <iframe src='http://localhost:4001/child.html'></iframe>
+        <script> 
+            const input = document.querySelector('input')
+            const iframe = document.querySelector('iframe')
+
+            input.addEventListener('input', function() {
+                const value = this.value
+                console.log(value)
+                iframe.contentWindow.postMessage(value, 'http://localhost:4001')
+            })
+        </script>
+    </body>
+</html>
