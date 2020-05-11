@@ -1,0 +1,12 @@
+injecting down: add new context
+
+<p>user data</p>
+<p><script>alert(1);</script></p>
+
+injecting up: end the current context to go to a higher context
+
+<img src='avatar.png' alt='user data' />
+ending alt
+
+XSS auditor is a bad idea, was removed
+Content security policy is a reverse of SOP
