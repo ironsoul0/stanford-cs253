@@ -12,4 +12,4 @@ app.get('/', (req, res) => {
     res.send(html)
 })
 
-app.listen(4000)
+app.listen(4000, '127.0.0.1')
