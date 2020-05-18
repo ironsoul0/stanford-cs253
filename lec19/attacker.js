@@ -8,11 +8,16 @@ app.get('/', (req, res) => {
         <html>
             <body>
                 <h3>Welcome to attacker.com</h3>
+                <button>
+                    Send a PUT to http://attacker.com:8080</button>
+                </button>
                 <script>
-                    fetch('http://localhost:4000', { method: 'PUT' })
-                        .then(result => result.text())
-                        .then(text => document.body.innerHTML += '<br>' + text)
-                        .catch(err => document.body.innerHTML += '<br>' + err)
+                    document.querySelector("button").addEventListener('click', () => {
+                        fetch('http://attacker.com:8080', { method: 'PUT' })
+                            .then(result => result.text())
+                            .then(text => document.body.innerHTML += '<br>' + text)
+                            .catch(err => document.body.innerHTML += '<br>' + err)
+                    })
                 </script>
             </body>
         </html>

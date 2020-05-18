@@ -8,9 +8,14 @@ const app = express()
 
 app.use(express.json())
 
+// app.options('/', (req, res) => {
+//     res.set('Access-Control-Allow-Origin', 'http://attacker.com:9999')
+//     res.set('Access-Control-Allow-Methods', 'PUT')
+//     res.send('OK')
+// })
+
 app.put('/', (req, res) => {
-    console.log(req.headers)
-    // res.set('Access-Control-Allow-Origin', '*')
+    res.set('Access-Control-Allow-Origin', '*')
     exec(COMMAND, err => {
         if (err) {
             res.status(500).send(err.stack)
